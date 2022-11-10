@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 style="text-align:center">Login</h2>
+    <form action="" style="text-align:center;background-color:#cccccc" method="post">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Enter your username"><br><br>
+        <input type="password" name="password" placeholder="Enter your password"><br><br>
+        <div style="display:block;align-items:center;justify-content:center;text-align;center">
+          <input type="submit">
+          {% for message in messages %}
+          <p style="color:red">{{message}}</p>
+          {% endfor %}
+        </div>
+
+
+        <p style="marginBottom:10px">Not registered?<a href="{% url 'register' %}">Register</a></p>
+
+    </form>
+
+{% endblock %}

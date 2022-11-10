@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+  <h2>Retail Banking Module » Customer Management</h2>
+{% if user.is_authenticated %}
+  <p>
+    <a href="{% url 'person_add' %}"><button class="btn btn-primary">Add Customer</button></a>
+  </p>
+
+  <table class="table table-striped table-dark">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Birthdate</th>
+        <th>Age</th>
+        <th>Gender</th>
+        <th>Phone Number</th>
+        <th>Mail Id</th>
+        <th>Address</th>
+        <th>District</th>
+        <th>Branch</th>
+        <th>Account Type</th>
+        <th>Materials Provide</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for person in people %}
+        <tr>
+<!--          <td><a href="{% url 'person_change' person.pk %}">{{ person.name }}</a></td>-->
+          <td>{{ person.name }}</td>
+          <td>{{ person.birthdate }}</td>
+          <td>{{ person.age }}</td>
+          <td>{{ person.gender }}</td>
+          <td>{{ person.phone_num }}</td>
+          <td>{{ person.mail_id }}</td>
+          <td>{{ person.address }}</td>
+          <td>{{ person.district.name }}</td>
+          <td>{{ person.branch.name }}</td>
+          <td>{{ person.accounttype }}</td>
+          {% if person.creditcard %}
+            {% if person.debitcard %}
+              <td>Credit Card, Debit Card</td>
+            {% else %}
+              <td>Credit Card</td>
+            {% endif %}
+          {% else %}
+            {% if person.deb_given %}
+              <td>Debit Card</td>
+            {% else %}
+              <td>No Materials  Needed</td>
+            {% endif %}
+          {% endif %}
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4">No Customers in the database. <a href="{% url 'person_add' %}">Add the first Customer</a>.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+<!--    <p>Please Login to view customres/add new customers</p>-->
+<div class="alert alert-warning" role="alert">
+  Pleasw<a href="{% url 'login' %}" class="alert-link">Login</a> to view customers/add new customers
+</div>
+{% endif %}
+{% endblock %}

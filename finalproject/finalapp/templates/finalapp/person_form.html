@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <h2>Customer Application Form</h2>
+
+  <form method="post" id="personForm" data-branches-url="{% url 'ajax_load_branches' %}" novalidate>
+    {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+    </table>
+      <a href="{% url 'application_accepted' %}"><button class="btn btn-primary" style="margin-right:10px" type="submit">Submit</button></a>
+<!--    <a href="{% url 'person_changelist' %}">Nevermind</a>-->
+  </form>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $("#id_district").change(function () {
+      var url = $("#personForm").attr("data-branches-url");
+      var districtId = $(this).val();
+
+      $.ajax({
+        url: url,
+        data: {
+          'district': districtId
+        },
+        success: function (data) {
+          $("#id_branch").html(data);
+        }
+      });
+
+    });
+  </script>
+
+{% endblock %}
